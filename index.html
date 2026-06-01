@@ -21,11 +21,28 @@
     padding: 2rem;
     width: 100%;
     max-width: 460px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 12px rgba(41, 39, 39, 0.08);
   }
-  h1 { font-size: 22px; font-weight: 600; color: #1a1a1a; margin-bottom: 1.5rem; }
+  .card-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 1.25rem;
+  }
+  h1 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 1.75rem;
+  }
   .field { margin-bottom: 16px; }
-  label { display: block; font-size: 13px; color: #666; margin-bottom: 6px; }
+  label {
+    display: block;
+    font-size: 13px;
+    color: #6d6868;
+    margin-bottom: 6px;
+  }
   input, select {
     width: 100%;
     padding: 10px 12px;
@@ -35,6 +52,7 @@
     color: #1a1a1a;
     background: #fff;
     outline: none;
+    transition: border-color 0.15s;
   }
   input:focus, select:focus { border-color: #888; }
   .flag-wrap { position: relative; }
@@ -57,6 +75,7 @@
     border-radius: 8px;
     font-size: 14px;
     cursor: pointer;
+    transition: background 0.15s;
   }
   button:hover { background: #333; }
   .success {
@@ -73,20 +92,21 @@
 </head>
 <body>
 <div class="card">
-  <h1>Student Registration</h1>
+  <p class="card-label">Student Registration</p>
+  <h1>Registration Form</h1>
 
   <div class="field">
-    <label>Full name</label>
+    <label for="fullname">Full name</label>
     <input type="text" id="fullname" placeholder="e.g. Niyomwungeri Dorcas" />
   </div>
 
   <div class="field">
-    <label>Place of birth</label>
+    <label for="birthplace">Place of birth</label>
     <input type="text" id="birthplace" placeholder="City, Country" />
   </div>
 
   <div class="field">
-    <label>Nationality</label>
+    <label for="nationality">Nationality</label>
     <div class="flag-wrap">
       <select id="nationality">
         <option value="">Select nationality</option>
@@ -95,18 +115,22 @@
     </div>
   </div>
 
-  <button onclick="handleSubmit()">Submit</button>
-  <div class="success" id="success">✓ Registration submitted!</div>
+  <button onclick="handleSubmit()">Submit registration</button>
+  <div class="success" id="success">✓ Registration submitted successfully!</div>
 </div>
 
 <script>
 const countries = [
-  ["🇷🇼","Rwandan"],["🇧🇮","Burundian"],["🇨🇩","Congolese (DRC)"],
-  ["🇺🇬","Ugandan"],["🇹🇿","Tanzanian"],["🇰🇪","Kenyan"],
-  ["🇺🇸","American"],["🇬🇧","British"],["🇫🇷","French"],
-  ["🇩🇪","German"],["🇨🇳","Chinese"],["🇮🇳","Indian"],
-  ["🇧🇷","Brazilian"],["🇯🇵","Japanese"],["🇨🇦","Canadian"],
-  ["🇦🇺","Australian"],["🇿🇦","South African"],["🇳🇬","Nigerian"]
+  ["🇷🇼","Rwandan"],["🇧🇮","Burundian"],["🇨🇩","Congolese (DRC)"],["🇺🇬","Ugandan"],
+  ["🇹🇿","Tanzanian"],["🇰🇪","Kenyan"],["🇪🇹","Ethiopian"],["🇸🇴","Somali"],
+  ["🇬🇭","Ghanaian"],["🇳🇬","Nigerian"],["🇸🇦","Saudi"],["🇿🇦","South African"],
+  ["🇺🇸","American"],["🇬🇧","British"],["🇫🇷","French"],["🇩🇪","German"],
+  ["🇧🇪","Belgian"],["🇨🇳","Chinese"],["🇮🇳","Indian"],["🇧🇷","Brazilian"],
+  ["🇯🇵","Japanese"],["🇨🇦","Canadian"],["🇦🇺","Australian"],["🇮🇹","Italian"],
+  ["🇪🇸","Spanish"],["🇵🇹","Portuguese"],["🇳🇱","Dutch"],["🇸🇪","Swedish"],
+  ["🇳🇴","Norwegian"],["🇩🇰","Danish"],["🇨🇭","Swiss"],["🇦🇹","Austrian"],
+  ["🇵🇱","Polish"],["🇺🇦","Ukrainian"],["🇷🇺","Russian"],["🇹🇷","Turkish"],
+  ["🇮🇩","Indonesian"],["🇵🇭","Filipino"],["🇲🇽","Mexican"],["🇦🇷","Argentine"]
 ];
 
 const sel = document.getElementById('nationality');
@@ -126,13 +150,16 @@ sel.addEventListener('change', () => {
 });
 
 function handleSubmit() {
-  if (!document.getElementById('fullname').value ||
-      !document.getElementById('birthplace').value ||
-      !sel.value) {
+  const name = document.getElementById('fullname').value.trim();
+  const birth = document.getElementById('birthplace').value.trim();
+  const nat = sel.value;
+  if (!name || !birth || !nat) {
     alert('Please fill in all fields.');
     return;
   }
-  document.getElementById('success').style.display = 'block';
+  const msg = document.getElementById('success');
+  msg.style.display = 'block';
+  setTimeout(() => msg.style.display = 'none', 3000);
 }
 </script>
 </body>
