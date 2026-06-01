@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Student Registration Form</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f4f4f0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 460px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+  .card-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 1.25rem;
+  }
+  h1 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 1.75rem;
+  }
+  .field { margin-bottom: 16px; }
+  label {
+    display: block;
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 6px;
+  }
+  input, select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #1a1a1a;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  input:focus, select:focus { border-color: #888; }
+  .flag-wrap { position: relative; }
+  .flag-wrap select { padding-left: 38px; }
+  .flag-preview {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    pointer-events: none;
+  }
+  button {
+    width: 100%;
+    padding: 11px;
+    margin-top: 8px;
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  button:hover { background: #333; }
+  .success {
+    display: none;
+    margin-top: 12px;
+    padding: 10px;
+    background: #eafaf1;
+    color: #1a7a4a;
+    border-radius: 8px;
+    font-size: 13px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <p class="card-label">Student Registration</p>
+  <h1>Registration Form</h1>
+
+  <div class="field">
+    <label for="fullname">Full name</label>
+    <input type="text" id="fullname" placeholder="e.g. Niyomwungeri Dorcas" />
+  </div>
+
+  <div class="field">
+    <label for="birthplace">Place of birth</label>
+    <input type="text" id="birthplace" placeholder="City, Country" />
+  </div>
+
+  <div class="field">
+    <label for="nationality">Nationality</label>
+    <div class="flag-wrap">
+      <select id="nationality">
+        <option value="">Select nationality</option>
+      </select>
+      <span class="flag-preview" id="flag-preview">🌍</span>
+    </div>
+  </div>
+
+  <button onclick="handleSubmit()">Submit registration</button>
+  <div class="success" id="success">✓ Registration submitted successfully!</div>
+</div>
+
+<script>
+const countries = [
+  ["🇷🇼","Rwandan"],["🇧🇮","Burundian"],["🇨🇩","Congolese (DRC)"],["🇺🇬","Ugandan"],
+  ["🇹🇿","Tanzanian"],["🇰🇪","Kenyan"],["🇪🇹","Ethiopian"],["🇸🇴","Somali"],
+  ["🇬🇭","Ghanaian"],["🇳🇬","Nigerian"],["🇸🇦","Saudi"],["🇿🇦","South African"],
+  ["🇺🇸","American"],["🇬🇧","British"],["🇫🇷","French"],["🇩🇪","German"],
+  ["🇧🇪","Belgian"],["🇨🇳","Chinese"],["🇮🇳","Indian"],["🇧🇷","Brazilian"],
+  ["🇯🇵","Japanese"],["🇨🇦","Canadian"],["🇦🇺","Australian"],["🇮🇹","Italian"],
+  ["🇪🇸","Spanish"],["🇵🇹","Portuguese"],["🇳🇱","Dutch"],["🇸🇪","Swedish"],
+  ["🇳🇴","Norwegian"],["🇩🇰","Danish"],["🇨🇭","Swiss"],["🇦🇹","Austrian"],
+  ["🇵🇱","Polish"],["🇺🇦","Ukrainian"],["🇷🇺","Russian"],["🇹🇷","Turkish"],
+  ["🇮🇩","Indonesian"],["🇵🇭","Filipino"],["🇲🇽","Mexican"],["🇦🇷","Argentine"]
+];
+
+const sel = document.getElementById('nationality');
+const preview = document.getElementById('flag-preview');
+
+countries.sort((a,b) => a[1].localeCompare(b[1])).forEach(([flag, name]) => {
+  const opt = document.createElement('option');
+  opt.value = name;
+  opt.textContent = flag + ' ' + name;
+  opt.dataset.flag = flag;
+  sel.appendChild(opt);
+});
+
+sel.addEventListener('change', () => {
+  const opt = sel.options[sel.selectedIndex];
+  preview.textContent = opt.dataset.flag || '🌍';
+});
+
+function handleSubmit() {
+  const name = document.getElementById('fullname').value.trim();
+  const birth = document.getElementById('birthplace').value.trim();
+  const nat = sel.value;
+  if (!name || !birth || !nat) {
+    alert('Please fill in all fields.');
+    return;
+  }
+  const msg = document.getElementById('success');
+  msg.style.display = 'block';
+  setTimeout(() => msg.style.display = 'none', 3000);
+}
+</script>
+</body>
+</html>
